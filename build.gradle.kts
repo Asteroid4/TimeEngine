@@ -2,8 +2,8 @@ plugins {
     kotlin("jvm") version "1.9.22"
 }
 
-group = "org.example"
-version = "1.0-SNAPSHOT"
+group = "asteroid4.timeengine"
+version = "0.1.0"
 
 repositories {
     mavenCentral()
