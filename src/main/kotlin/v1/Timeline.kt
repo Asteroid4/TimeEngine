@@ -1,14 +1,19 @@
 package asteroid4.timeengine.v1
 
-class Timeline(private val startingState: GameState, private val timewaveSpeed: Int) {
-    private val events = ArrayList<GameEvent?>()
-    val timewaves = ArrayList<Int>()
+class Timeline() {
+    private val worldlines = HashMap<String, Worldline>()
 
-    operator fun plusAssign(event: GameEvent) { events += event }
+    operator fun get(worldlineName: String): Worldline? = worldlines[worldlineName]
 
-    fun constructState(moment: Int = events.lastIndex) = events.subList(0, moment+1).fold(startingState) { state, event -> state + event }
+    operator fun set(worldlineName: String, worldline: Worldline) { worldlines[worldlineName] = worldline }
 
-    fun getEvents() = events.toList()
-
-    fun setEvent(index: Int, event: GameEvent) { events[index] = event }
+    fun getGameState(time: Int): Array<Pair<String, Worldpoint>> {
+        val output = ArrayList<Pair<String, Worldpoint>>()
+        worldlines.forEach {(worldlineName, worldline) ->
+            worldline.pointsAtTime(time).forEach {worldpoint ->
+                output += Pair(worldlineName, worldpoint)
+            }
+        }
+        return output.toTypedArray()
+    }
 }
